@@ -1,22 +1,38 @@
 import { CartEntry } from "./cartEntry";
 
 export interface Cart {
-    cartEntries: CartEntry[];
-    totalPrice: number;
-    deliveryModes: DeliveryMode[];
-    loyaltyPointsToEarn: number;
-    loyaltyPointsToBurn: number;
-    discount: CartEntryDiscount;
-    isGuestCart: boolean;
-    isLoyaltyEnabled: boolean;
+  entries: CartEntry[];
+  price: CartPrice;
+  delivery: Delivery;
+  loyalty: Loyalty;
+  discounts: CartDiscount[];
 }
 
-interface CartEntryDiscount {
-    appliedDiscounts: any[]; // TODO
-    discountValues: any[]; // TODO
+interface CartPrice {
+  total: number;
+  totalDiscount: number;
+  totalExVat: number;
 }
 
-interface DeliveryMode {
-    cost: number;
-    description: string;
+interface Loyalty {
+  pointsToEarn: number;
+  pointToBurn: number;
+  isEnabled: boolean;
+}
+
+type DeliveryType = "home" | "store";
+interface Delivery {
+  type: DeliveryType;
+  cost: number;
+  dates: Date[];
+  description: string;
+}
+
+export type DiscountType = "fixed" | "percentage";
+
+interface CartDiscount {
+  type: DiscountType;
+  amount: number;
+  name: string;
+  description: string;
 }
